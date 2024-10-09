@@ -1,40 +1,28 @@
-{-# LANGUAGE GADTs #-}
+{-# LANGUAGE GADTs, NoImplicitPrelude #-}
 
 module Nat where
 
-    import Prelude hiding (Num(..))
-
+    --import qualified Prelude
     data Nat where
-        O :: Nat
+        Z :: Nat
         S :: Nat -> Nat
-        deriving(Eq, Show)
-
-    plus :: Nat -> Nat -> Nat
-    plus n O = n
-    plus n (S m) = S (plus n m)
-
-    times :: Nat -> Nat -> Nat
-    times n O = O
-    times n (S m) = plus n (times n m)
-
-    expon :: Nat -> Nat -> Nat
-    expon n O = S O
-    expon n (S m) = times n (expon n m)
-
-    double :: Nat -> Nat
-    double n = times n (S (S O))
-
-    predec :: Nat -> Nat
-    predec O = O
-    predec (S n) = n
+        --deriving (Prelude.Show)
 
     (+) :: Nat -> Nat -> Nat
-    (+) = plus
+    n + Z = n
+    n + (S m) = S (n + m)
 
     (*) :: Nat -> Nat -> Nat
-    (*) = times
+    n * Z = Z
+    n * (S m) = n + (n * m)
 
     (^) :: Nat -> Nat -> Nat
-    (^) = expon
+    n ^ Z = S Z
+    n ^ (S m) = n * (n ^ m)
 
+    double :: Nat -> Nat
+    double n = n * S (S Z)
 
+    pd :: Nat -> Nat
+    pd Z = Z
+    pd (S n) = n
