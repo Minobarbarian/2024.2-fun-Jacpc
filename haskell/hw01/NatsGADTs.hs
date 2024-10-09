@@ -21,6 +21,13 @@ module Nat where
     expon n O = S O
     expon n (S m) = times n (expon n m)
 
+    double :: Nat -> Nat
+    double n = times n (S (S O))
+
+    predec :: Nat -> Nat
+    predec O = O
+    predec (S n) = n
+
     (+) :: Nat -> Nat -> Nat
     (+) = plus
 
