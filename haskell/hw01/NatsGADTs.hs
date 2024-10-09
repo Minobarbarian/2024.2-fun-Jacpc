@@ -1,11 +1,9 @@
 {-# LANGUAGE GADTs, NoImplicitPrelude #-}
 module Nat where
 
-    --import qualified Prelude
     data Nat where
         O :: Nat
         S :: Nat -> Nat
-        --deriving (Prelude.Show)
 
     (+) :: Nat -> Nat -> Nat
     n + O = n
