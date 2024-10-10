@@ -4,48 +4,90 @@
 inductive Nats
 | O : Nats
 | S : Nats → Nats
-deriving Repr
+deriving BEq, DecidableEq, Inhabited
 
 open Nats
 
-def add : Nats → Nats → Nats
-| n, O => n
-| n, S m => S (add n m)
+def plus : Nats → Nats → Nats
+  | n, O => n
+  | n, S m => S (plus n m)
+infixl: 70 "+" => plus
 
-def mul : Nats → Nats → Nats
+def times : Nats → Nats → Nats
 | n, O => O
-| n, S m => add n (mul n m)
+| n, S m => n + (times n m)
+infixl: 80 "*" => times
 
 def pow : Nats → Nats → Nats
 | n, O => S O
-| n, S m => mul n (pow n m)
-
-instance : HAdd Nats Nats Nats where
-  hAdd := add
-instance : HMul Nats Nats Nats where
-  hMul := mul
-instance : HPow Nats Nats Nats where
-  hPow := pow
---==================================
--- Axiomas:
---==================================
-axiom NA_Ass (a b c: Nats) : (a + b) + c = a + (b + c)
-axiom NA_idR (a : Nats) : a = a + O
---axiom NA_invR (a : Nats) : O = a + (-a)
-axiom NA_Com (a b : Nats) : a + b = b + a
-
-axiom NM_Ass (a b c: Nats) : (a * b) * c = a * (b * c)
-axiom NM_idR (a : Nats) : a = a * (S O)
-axiom NM_Com (a b : Nats) : a * b = b * a
-
-axiom NE_idR (a : Nats) : a = a ^ (S O)
-
+| n, S m => n * (pow n m)
+infixl: 90 "^" => pow
 
 --==================================
--- Lemmas da Esquerda:
+-- Teoremas de plus:
 --==================================
-theorem NM_idL: ∀ a : Nats, a = (S O) * a := by
-  intro a
-  have h: a = a * (S O) := NM_idR a
-  rw [NM_Com a (S O)] at h
-  exact h
+
+  --Identidade Direita
+  theorem NA_idR: ∀ n : Nats, n + O = n := by
+    intro n
+    rw[plus]
+
+  --Sucessor Direito
+  theorem NA_SR: ∀ (n m : Nats), n + S m = S (n + m) := by
+    intro n m
+    rw[plus]
+
+  --Associatividade da Soma
+  theorem NA_Ass: ∀ (a b c: Nats), (a + b) + c = a + (b + c) := by
+    intro a b c
+    induction c with
+    |O =>
+      rw[NA_idR]
+      rw[NA_idR]
+    |S c ih =>
+      rw[NA_SR]
+      rw[NA_SR]
+      rw[NA_SR]
+      rw[ih]
+
+  --Identidade Esquerda
+  theorem NA_idL: ∀ n : Nats, O + n = n := by
+    intro n
+    induction n with
+    |O => rfl
+    |S n ih =>
+      rw [NA_SR]
+      rw [ih]
+
+  --Sucessor Esquerdo
+  theorem NA_SL: ∀ (n m : Nats), S n + m = S (n + m) := by
+    intro n m
+    induction m with
+    |O =>
+      rw[NA_idR]
+      rw[NA_idR]
+    |S n ih =>
+      rw[NA_SR]
+      rw[ih]
+      rw[NA_SR]
+
+  --Comutatividade da Soma
+  theorem NA_Com: ∀ (n m : Nats), m + n = n + m := by
+    intro n m
+    induction n with
+    |O =>
+      rw[NA_idL]
+      rw[NA_idR]
+    |S n ih =>
+      rw[NA_SR]
+      rw[NA_SL]
+      rw[ih]
+
+--==================================
+-- Teoremas de times:
+--==================================
+
+--Identidade Direita
+theorem NM_idR: ∀ n : Nats, n * S O = n := by
+  intro n
+  rw[]
