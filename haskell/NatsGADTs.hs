@@ -29,10 +29,9 @@ module Nat where
     fact (S n) = fact n * S n
 
     fib :: Nat -> Nat
-    fib O = O
-    fib (S O) = S O
     fib (S (S n)) = fib (S n) + fib n
-
+    fib n = n
+    
     min :: (Nat, Nat) -> Nat
     min (n, O) = O
     min (O, n) = O
