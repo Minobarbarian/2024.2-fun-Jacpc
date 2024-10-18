@@ -4,15 +4,17 @@ module TypeClasses where
     import Bool (Bool(True, False), not)
     import List ((++))
     import Prelude
-        (Show(..)
-        , error
+        (error, 
+        String
         )
+    class Show a where
+        show :: a -> String
+
     class Eq a where
         (==) :: a -> a -> Bool
         (/=) :: a -> a -> Bool
 
         x /= y = not (x == y)
-        x == y = not (x /= y)
 
     class Additive a where
         plus :: a -> a -> a
