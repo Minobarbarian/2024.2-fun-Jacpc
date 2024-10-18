@@ -17,9 +17,9 @@ module TypeClasses where
     class Additive a where
         plus :: a -> a -> a
         zero :: a
-        neg :: a -> a
+        negation :: a -> a
         minus :: a -> a -> a
-        x `minus` y = x `plus` (neg y)
+        x `minus` y = x `plus` negation y
 
     instance Show Nat where
         show O = "0"
@@ -31,3 +31,6 @@ module TypeClasses where
     instance Additive Nat where
         plus = (+)
         zero = O
+        negation = neg
+        minus = (-)
+
