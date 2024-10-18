@@ -9,10 +9,6 @@ module Bool where
     not True = False
     not False = True
 
-    ifthenelse :: Bool -> a -> a -> a
-    ifthenelse True x _ = x
-    ifthenelse False _ y = y
-
     (&&) :: Bool -> Bool -> Bool
     b && True = b
     b && False = False
