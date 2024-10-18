@@ -2,9 +2,9 @@
 module TypeClasses where
     import Nat
     import Bool (Bool(True, False), not)
+    import List ((++))
     import Prelude
         (Show(..)
-        , (++)
         , error
         )
     class Eq a where
