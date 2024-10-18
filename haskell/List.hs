@@ -5,6 +5,6 @@ module List where
         Nil :: List a
         Cons :: a -> List a -> List a
 
-    (++) :: List a -> List a -> List a
-    Nil ++ xs = xs
-    (Cons x xs) ++ ys = Cons x (xs ++ ys)
+    (++) :: [a] -> [a] -> [a]
+    [] ++ xs = xs
+    (x:xs) ++ ys = x:(xs ++ ys)
