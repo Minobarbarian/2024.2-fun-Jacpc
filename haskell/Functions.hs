@@ -9,4 +9,9 @@ module Functions where
     ifthenelse True x _ = x
     ifthenelse False _ y = y
 
-    
+    ev :: Nat -> Bool
+    ev O = True
+    ev (S n) = not (ev n)
+
+    od :: Nat -> Bool
+    od n = not (ev n)
