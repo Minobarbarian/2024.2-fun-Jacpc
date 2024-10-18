@@ -17,6 +17,11 @@ module Nat where
     n ^ O = S O
     n ^ (S m) = n * (n ^ m)
 
+    (-) :: Nat -> Nat -> Nat
+    O - _ = O
+    n - O = n
+    (S n) - (S m) = n - m
+
     double :: Nat -> Nat
     double n = n * S (S O)
 
@@ -31,6 +36,9 @@ module Nat where
     fib :: Nat -> Nat
     fib (S (S n)) = fib (S n) + fib n
     fib n = n
+
+    neg :: Nat -> Nat
+    neg _ = O
     
     min :: (Nat, Nat) -> Nat
     min (n, O) = O
