@@ -1,10 +1,10 @@
 {-# LANGUAGE GADTs, NoImplicitPrelude #-}
 module List where
 
-    data List α where
-        Nil :: List α
-        Cons :: α -> List α -> List α
+    data List a where
+        Nil :: List a
+        Cons :: a -> List a -> List a
 
-    (++) :: [a] -> [a] -> [a]
-    [] ++ xs = xs
-    (x:xs) ++ ys = x:(xs ++ ys)
+    (++) :: List a -> List a -> List a
+    Nil ++ xs = xs
+    (Cons x xs) ++ ys = Cons x (xs ++ ys)
