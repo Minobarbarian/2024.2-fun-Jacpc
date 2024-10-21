@@ -34,7 +34,9 @@ instance Show Nat where
 
     -- zero  should be shown as O
     -- three should be shown as SSSO
-    show = undefined
+    show O = "O"
+    show (S n) = "S " ++ show n
+
 
 instance Eq Nat where
     O == O     = True
@@ -112,17 +114,20 @@ n <^> (S m) = n <*> (n <^> m)
 -- quotient
 (</>) :: Nat -> Nat -> Nat
 _ </> O = error "cant by O"
-n </> m = if n >= m
+n </> m =   if n >= m
             then S (n <-> m) </> m
             else O
 
 -- remainder
 (<%>) :: Nat -> Nat -> Nat
-(<%>) = undefined
+_ <%> O = error "cant by O"
+n <%> m =   if n >= m
+            then (n <-> m) <%> m
+            else  n
 
 -- divides
 (<|>) :: Nat -> Nat -> Bool
-(<|>) = undefined
+n <|> m = True
 
 divides = (<|>)
 
@@ -135,7 +140,8 @@ absDiff = undefined
 (|-|) = absDiff
 
 factorial :: Nat -> Nat
-factorial = undefined
+factorial O = S O
+factorial (S n) = factorial n <*> S n
 
 -- signum of a number (-1, 0, or 1)
 sg :: Nat -> Nat
