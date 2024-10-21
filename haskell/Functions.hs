@@ -4,7 +4,7 @@ module Functions where
     import List
     import Maybe
     import Nat
-
+    
     ifthenelse :: Bool -> a -> a -> a
     ifthenelse True x _ = x
     ifthenelse False _ y = y
@@ -15,3 +15,7 @@ module Functions where
 
     od :: Nat -> Bool
     od n = not (ev n)
+
+    length :: List a -> Nat
+    length [] = O
+    length [x:xs] = S (length xs)
