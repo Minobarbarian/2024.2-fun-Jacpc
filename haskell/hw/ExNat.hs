@@ -44,21 +44,21 @@ instance Eq Nat where
     _ == _     = False
 
 instance Ord Nat where
-    S n <= S m = n <= m
-    S n <= O = False
+    O >= _ = True
+    _ >= O = False
+    S n >= S m = n >= m
 
     -- Ord does not REQUIRE defining min and max.
     -- Howevener, you should define them WITHOUT using (<=).
     -- Both are binary functions: max m n = ..., etc.
 
     min :: Nat -> Nat -> Nat
-    min _ O = O
-    min O _ = O
     min (S n) (S m) = S (min n m)
+    min _ _ = O
 
     max :: Nat -> Nat -> Nat
-    max n _ = n
-    max _ n = n
+    max n O = n
+    max O n = n
     max (S n) (S m) = S (max n m)
 
 
@@ -127,7 +127,9 @@ n <%> m =   if n >= m
 
 -- divides
 (<|>) :: Nat -> Nat -> Bool
-n <|> m = True
+_ <|> O = True
+O <|> _ = False
+n <|> m = (m <%> n) == O
 
 divides = (<|>)
 
@@ -135,7 +137,9 @@ divides = (<|>)
 -- x `absDiff` y = |x - y|
 -- (Careful here: this - is the real minus operator!)
 absDiff :: Nat -> Nat -> Nat
-absDiff = undefined
+absDiff n O = n
+absDiff O n = n
+absDiff (S n) (S m) = absDiff n m
 
 (|-|) = absDiff
 
@@ -145,7 +149,8 @@ factorial (S n) = factorial n <*> S n
 
 -- signum of a number (-1, 0, or 1)
 sg :: Nat -> Nat
-sg = undefined
+sg O = O
+sg _ = S O
 
 -- lo b a is the floor of the logarithm base b of a
 lo :: Nat -> Nat -> Nat
