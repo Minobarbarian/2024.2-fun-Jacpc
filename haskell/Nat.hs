@@ -41,9 +41,8 @@ module Nat where
     neg _ = O
     
     min :: (Nat, Nat) -> Nat
-    min (n, O) = O
-    min (O, n) = O
     min (S n, S m) = S (min (n, m))
+    min (_,_) = O
 
     max :: (Nat, Nat) -> Nat
     max (n, O) = n
