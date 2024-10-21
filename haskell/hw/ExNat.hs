@@ -37,12 +37,13 @@ instance Show Nat where
     show = undefined
 
 instance Eq Nat where
-
-    (==) = undefined
+    O == O     = True
+    S n == S m = n == m
+    _ == _     = False
 
 instance Ord Nat where
-
-    (<=) = undefined
+    S n <= S m = n <= m
+    S n <= O = False
 
     -- Ord does not REQUIRE defining min and max.
     -- Howevener, you should define them WITHOUT using (<=).
@@ -53,7 +54,10 @@ instance Ord Nat where
     min O _ = O
     min (S n) (S m) = S (min n m)
 
-    max = undefined
+    max :: Nat -> Nat -> Nat
+    max n _ = n
+    max _ n = n
+    max (S n) (S m) = S (max n m)
 
 
 ----------------------------------------------------------------
@@ -61,17 +65,20 @@ instance Ord Nat where
 ----------------------------------------------------------------
 
 isZero :: Nat -> Bool
-isZero = undefined
+isZero O = True
+isZero _ = False
 
 -- pred is the predecessor but we define zero's to be zero
 pred :: Nat -> Nat
-pred = undefined
+pred O = O
+pred (S n) = n
 
 even :: Nat -> Bool
-even = undefined
+even O = True
+even (S n) = not (even n)
 
 odd :: Nat -> Bool
-odd = undefined
+odd n = not (even n)
 
 
 ----------------------------------------------------------------
@@ -80,26 +87,34 @@ odd = undefined
 
 -- addition
 (<+>) :: Nat -> Nat -> Nat
-(<+>) = undefined
+n <+> O  = n
+n <+> (S m)  = S (n <+> m)
 
 -- This is called the dotminus or monus operator
 -- (also: proper subtraction, arithmetic subtraction, ...).
 -- It behaves like subtraction, except that it returns 0
 -- when "normal" subtraction would return a negative number.
 (<->) :: Nat -> Nat -> Nat
-(<->) = undefined
+O <-> _ = O
+n <-> O = n
+(S n) <-> (S m) = n <-> m
 
 -- multiplication
 (<*>) :: Nat -> Nat -> Nat
-(<*>) = undefined
+_ <*> O = O
+n <*> (S m) = n <+> (n <*> m)
 
 -- exponentiation
 (<^>) :: Nat -> Nat -> Nat
-(<^>) = undefined
+_ <^> O = S O
+n <^> (S m) = n <*> (n <^> m)
 
 -- quotient
 (</>) :: Nat -> Nat -> Nat
-(</>) = undefined
+_ </> O = error "cant by O"
+n </> m = if n >= m
+            then S (n <-> m) </> m
+            else O
 
 -- remainder
 (<%>) :: Nat -> Nat -> Nat
