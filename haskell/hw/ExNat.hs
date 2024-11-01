@@ -44,9 +44,9 @@ instance Eq Nat where
     _ == _     = False
 
 instance Ord Nat where
-    O >= _ = True
-    _ >= O = False
-    S n >= S m = n >= m
+    O <= _ = True
+    _ <= O = False
+    S n <= S m = n <= m
 
     -- Ord does not REQUIRE defining min and max.
     -- Howevener, you should define them WITHOUT using (<=).
@@ -114,22 +114,22 @@ n <^> (S m) = n <*> (n <^> m)
 -- quotient
 (</>) :: Nat -> Nat -> Nat
 _ </> O = error "cant by O"
-n </> m =   if n >= m
+n </> m =   if m <= n
             then S (n <-> m) </> m
             else O
 
 -- remainder
 (<%>) :: Nat -> Nat -> Nat
 _ <%> O = error "cant by O"
-n <%> m =   if n >= m
+n <%> m =   if m <= n
             then (n <-> m) <%> m
             else  n
 
 -- divides
 (<|>) :: Nat -> Nat -> Bool
-_ <|> O = True
-O <|> _ = False
-n <|> m = (m <%> n) == O
+n <|> m =   if (m <= n) && (n <%> m == 0)
+            then True
+            else False
 
 divides = (<|>)
 
