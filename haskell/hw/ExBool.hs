@@ -53,13 +53,13 @@ infixr 2 ||
 
 -- NAND (Sheffer stroke)
 (/|\) :: Bool -> Bool -> Bool
-(/|\) b = not . (&&) b
+b /|\ c = not  (b && c)
 
 infixr 2 /|\
 
 -- NOR (aka: Peirce arrow or Quine dagger)
 (\|/) :: Bool -> Bool -> Bool
-(\|/) b = not . (||) b
+b \|/ c = not (b || c)
 
 infixr 2 \|/
 
